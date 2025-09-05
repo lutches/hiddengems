@@ -139,6 +139,7 @@
     --default-mono-font-feature-settings: var(--font-mono--font-feature-settings);
     --default-mono-font-variation-settings: var(--font-mono--font-variation-settings);
     --color-border: var(--border);
+    --width: 100%;
   }
 }
 
@@ -4876,4 +4877,10 @@ html {
   20%, 50% {
     opacity: 0;
   }
+}
+
+/* Prevent horizontal scrolling across the app */
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
 }

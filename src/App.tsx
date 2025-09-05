@@ -1,3 +1,4 @@
+import React from "react";
 import { Hero } from "./components/Hero";
 import { FeaturedBusinesses } from "./components/FeaturedBusinesses";
 import { WhyThisGuide } from "./components/WhyThisGuide";

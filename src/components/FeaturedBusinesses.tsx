@@ -1,10 +1,19 @@
+import React from "react";
 import { Button } from "./ui/button";
 import { Card } from "./ui/card";
 import { Badge } from "./ui/badge";
 import { ImageWithFallback } from './figma/ImageWithFallback';
 import { Utensils, Coffee, Music } from "lucide-react";
 
-const businesses = [
+type Business = {
+  id: number;
+  name: string;
+  description: string;
+  category: string;
+  image: string;
+};
+
+const businesses: Business[] = [
   {
     id: 1,
     name: "Café Husaren",
@@ -70,7 +79,7 @@ const categoryInfo = {
   }
 };
 
-const BusinessCard = ({ business }: { business: typeof businesses[0] }) => {
+const BusinessCard = ({ business }: { business: Business }) => {
   const categoryStyle = categoryInfo[business.category as keyof typeof categoryInfo];
   
   return (
@@ -105,7 +114,7 @@ const BusinessCard = ({ business }: { business: typeof businesses[0] }) => {
 
 const CategorySection = ({ category, businesses }: { 
   category: keyof typeof categoryInfo, 
-  businesses: typeof businesses 
+  businesses: Business[] 
 }) => {
   const categoryData = categoryInfo[category];
   const Icon = categoryData.icon;
@@ -124,7 +133,9 @@ const CategorySection = ({ category, businesses }: {
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {businesses.map((business) => (
-          <BusinessCard key={business.id} business={business} />
+          <React.Fragment key={business.id}>
+            <BusinessCard business={business} />
+          </React.Fragment>
         ))}
       </div>
     </div>
@@ -138,7 +149,7 @@ export function FeaturedBusinesses() {
     }
     acc[business.category].push(business);
     return acc;
-  }, {} as Record<string, typeof businesses>);
+  }, {} as Record<string, Business[]>);
 
   return (
     <section className="py-20 px-4 md:px-6">
@@ -151,11 +162,12 @@ export function FeaturedBusinesses() {
         </div>
         
         {Object.entries(categorizedBusinesses).map(([category, categoryBusinesses]) => (
-          <CategorySection 
-            key={category}
-            category={category as keyof typeof categoryInfo}
-            businesses={categoryBusinesses}
-          />
+          <div key={category}>
+            <CategorySection 
+              category={category as keyof typeof categoryInfo}
+              businesses={categoryBusinesses}
+            />
+          </div>
         ))}
       </div>
     </section>
